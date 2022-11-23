@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import { useStore } from "./store/index"
+import { useStore } from "../store/index"
 
 function AppV3 () {
   const rootStore = useStore()

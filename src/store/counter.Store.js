@@ -20,6 +20,7 @@ class CounterStore {
   addList = () => {
     this.list.push(7, 8, 90)
   }
+
   //3.定义action函数 修改数据的
   addCount = () => {
     this.count++
@@ -28,4 +29,6 @@ class CounterStore {
 }
 
 //4.实例化
-export { CounterStore }
+const Counter = new CounterStore()
+export default Counter
+//export { CounterStore }

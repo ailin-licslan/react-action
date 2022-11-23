@@ -1,4 +1,4 @@
-import Task from './todo/index'
+import Task from '../todo/index'
 function AppV4 () {
 
   return (

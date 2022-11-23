@@ -47,18 +47,18 @@
 //LICSLAN React学习 整体第二遍敲代码熟悉基础知识理解:compontent,通讯,JSX,ES6,样式,state,生命周期,路由等,项目实战融会贯通掌握它...
 
 import React, { createRef, useEffect, useState } from 'react'
-import '../src/basic/app.css'
+import '../basic/app.css'
 import { v4 as uuid } from 'uuid'
 import { Button, Input, Popconfirm, Table } from 'antd'
 import axios from 'axios'
-import Home from '../src/basic/Home'
-import About from '../src/basic/About'
-import Login from '../src/basic/Login'
-import Layout from '../src/basic/Layout'
+import Home from '../basic/Home'
+import About from '../basic/About'
+import Login from '../basic/Login'
+import Layout from '../basic/Layout'
 import { BrowserRouter, Link, Routes, Route } from 'react-router-dom'
-import Borad from '../src/basic/Borad'
-import Article from '../src/basic/Article'
-import NotFount from '../src/basic/NotFount'
+import Borad from '../basic/Borad'
+import Article from '../basic/Article'
+import NotFount from '../basic/NotFount'
 
 
 

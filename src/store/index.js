@@ -2,7 +2,7 @@
 //封装统一导出供业务使用的方法
 
 import React from "react"
-import { CounterStore } from "./counter.Store"
+import Counter from "./counter.Store"
 import { ListStroe } from "./list.Store"
 import { TaskStore } from './task.Store'
 
@@ -11,7 +11,7 @@ class RootStore {
 
     //对子模块实例化 rootStore has two filed listStroe counterStroe
     this.listStore = new ListStroe()
-    this.counterStore = new CounterStore()
+    this.counterStore = Counter
     this.taskStore = new TaskStore()
   }
 }
