@@ -9,21 +9,21 @@ import ReactDOM from 'react-dom/client'
 import '../src/basic/index.css'
 
 
-//引入根组件 
+//0.引入根组件 
 
-//超级多的react 基础知识学习 
+//1.超级多的react 基础知识学习 
 //import App from '../src/apps/App'
 
-//mobx 学习 计算属性学习
+//2.mobx 学习 计算属性学习
 //import Appv2 from '../src/apps/AppV2'
 
-//mobx 学习 
+//3.mobx 学习 
 //import Appv3 from '../src/apps/AppV3'
 
-//Mobx 项目体验  TODO List dev
+//4.Mobx 项目体验  TODO List dev
 //import Appv4 from '../src/apps/AppV4'
 
-//实战项目开始 
+//5.实战项目开始 
 import Start from './Start'
 
 
