@@ -6,7 +6,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 //全局样式文件
-import '../src/basic/index.css'
+//import '../src/basic/index.css'
 
 // 先导入 antd 样式文件
 // 再导入全局样式文件，防止样式覆盖！

@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select, Popconfirm } from 'antd'
 import 'moment/locale/zh-cn'
 import locale from 'antd/es/date-picker/locale/zh_CN'
 import './index.scss'
@@ -9,6 +9,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '../../assets/error.png'
 import { useEffect, useState } from 'react'
 import { http } from '../../utils'
+//import { history } from '../../utils/history'
 
 const { Option } = Select
 const { RangePicker } = DatePicker
@@ -21,12 +22,13 @@ const Article = () => {
 
   //频道列表管理
   const [channelList, setChannelList] = useState([])
-  const loadChannelList = async () => {
-    const res = await http.get('/channels')
-    setChannelList(res.data.channels)
-    console.log("channelList is :", channelList)
-  }
+
   useEffect(() => {
+    const loadChannelList = async () => {
+      const res = await http.get('/channels')
+      console.log("res channelList is :", res)
+      setChannelList(res.data.channels)
+    }
     loadChannelList()
     // eslint-disable-next-line
   }, [])
@@ -46,17 +48,27 @@ const Article = () => {
     per_page: 10
   })
 
+  const pageChange = (page) => {
+    // 拿到当前页参数 修改params 引起接口更新
+    setParams({
+      ...params,
+      page
+    })
+  }
 
 
-  // 发送接口请求  如果异步请求函数需要依赖一些数据变化而重新执行 推荐把它写道内部去
+
+  //发送接口请求  如果异步请求函数需要依赖一些数据变化而重新执行 推荐把它写道内部去
+  //统一不抽离函数到外面 只要涉及函数异步请求 都放到useEffect 内部
+  //本质区别 写道外面每次组件更新都会重新进行函数初始化 这本身是一次性能消耗 写在内部 只会在函数依赖项发生变化的时候函数才会进行重新初始化
   useEffect(() => {
 
     async function fetchArticleList () {
       const res = await http.get('/mp/articles', { params })
 
-      debugger
       const { results, total_count } = res.data
       console.log("articleList is :", res.data)
+
       setArticleList({
         list: results,
         count: total_count
@@ -70,15 +82,59 @@ const Article = () => {
 
 
 
-
-
-
-
-
-
-  const onFinish = (value) => {
-    console.log(value)
+  //del 
+  const delArticle = async (data) => {
+    //只有一条数据了  后面做了新增再试试！！！
+    await http.delete(`/mp/articlesxxxx/${data.id}`)
+    // 更新列表
+    setParams({
+      page: 1,
+      per_page: 10
+    })
   }
+
+
+  const navigate = useNavigate()
+  function goPublish (data) {
+    navigate(`/publish?id${data.id}`)
+
+  }
+
+
+
+
+
+
+
+
+  const onFinish = (values) => {
+
+    console.log(values)
+
+    const { status, channel_id, date } = values
+    // 格式化表单数据
+    const _params = {}
+    // 格式化status
+    _params.status = status
+    if (channel_id) {
+      _params.channel_id = channel_id
+    }
+    if (date) {
+      _params.begin_pubdate = date[0].format('YYYY-MM-DD')
+      _params.end_pubdate = date[1].format('YYYY-MM-DD')
+    }
+    // 修改params参数 触发接口再次发起
+    setParams({
+      ...params,
+      ..._params
+    })
+
+
+  }
+
+
+
+
 
   // columns
   const columns = [
@@ -87,7 +143,7 @@ const Article = () => {
       dataIndex: 'cover',
       width: 120,
       render: cover => {
-        return <img src={cover || img404} width={80} height={60} alt="" />
+        return <img src={cover.images[0] || img404} width={80} height={60} alt="" />
       }
     },
     {
@@ -121,13 +177,25 @@ const Article = () => {
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} />
-            <Button
-              type="primary"
-              danger
-              shape="circle"
-              icon={<DeleteOutlined />}
+            <Button type="primary" shape="circle" icon={<EditOutlined />}
+              onClick={() => goPublish(data)}
             />
+
+            <Popconfirm
+              title="确认删除该条文章吗?"
+              onConfirm={() => delArticle(data)}
+              okText="确认"
+              cancelText="取消"
+            >
+              <Button
+                type="primary"
+                danger
+                shape="circle"
+                icon={<DeleteOutlined />}
+              />
+
+            </Popconfirm>
+
           </Space>
         )
       }
@@ -135,20 +203,21 @@ const Article = () => {
   ]
 
   // data 
-  const data = [
-    {
-      id: '8218',
-      comment_count: 0,
-      cover: {
-        images: ['http://geek.itheima.net/resources/images/15.jpg'],
-      },
-      like_count: 0,
-      pubdate: '2019-03-11 09:00:00',
-      read_count: 2,
-      status: 2,
-      title: 'wkwebview离线化加载h5资源解决方案'
-    }
-  ]
+  // const data = [
+  //   {
+  //     id: '8218',
+  //     comment_count: 0,
+  //     cover: {
+  //       // images: ['http://geek.itheima.net/resources/images/15.jpg'],
+  //       images: ['http://geek.itheima.net/uploads/1669283020636.png']
+  //     },
+  //     like_count: 0,
+  //     pubdate: '2019-03-11 09:00:00',
+  //     read_count: 2,
+  //     status: 2,
+  //     title: 'wkwebview离线化加载h5资源解决方案'
+  //   }
+  // ]
 
 
   return (
@@ -210,8 +279,18 @@ const Article = () => {
 
 
       {/*文章列表区域 table */}
-      <Card title={`根据筛选条件共查询到 count 条结果：`}>
-        <Table rowKey="id" columns={columns} dataSource={data} />
+      <Card title={`根据筛选条件共查询到 ${article.count} 条结果：`}>
+        <Table
+          rowKey="id"
+          columns={columns}
+          dataSource={article.list}
+          pagination={{
+            position: ['bottomCenter'],
+            current: params.page,
+            pageSize: params.per_page,
+            onChange: pageChange
+          }}
+        />
       </Card>
 
 
