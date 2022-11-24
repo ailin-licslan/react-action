@@ -21,13 +21,14 @@ const LinLayout = () => {
 
 
   //结构userStore
-  const { userStore, loginStore } = useStore()
+  const { userStore, loginStore, channelStore } = useStore()
 
 
   //空数组只执行一次！！！
   useEffect(() => {
     userStore.getUserInfo()
-  }, [userStore])
+    channelStore.loadChannelList()
+  }, [userStore, channelStore])
 
 
   const location = useLocation()

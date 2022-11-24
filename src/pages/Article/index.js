@@ -9,6 +9,8 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import img404 from '../../assets/error.png'
 import { useEffect, useState } from 'react'
 import { http } from '../../utils'
+import { useStore } from '../../store'
+import { observer } from 'mobx-react-lite'
 //import { history } from '../../utils/history'
 
 const { Option } = Select
@@ -20,18 +22,24 @@ const Article = () => {
 
 
 
-  //频道列表管理
-  const [channelList, setChannelList] = useState([])
+  // //频道列表管理
+  // const [channelList, setChannelList] = useState([])
 
-  useEffect(() => {
-    const loadChannelList = async () => {
-      const res = await http.get('/channels')
-      console.log("res channelList is :", res)
-      setChannelList(res.data.channels)
-    }
-    loadChannelList()
-    // eslint-disable-next-line
-  }, [])
+  // useEffect(() => {
+  //   const loadChannelList = async () => {
+  //     const res = await http.get('/channels')
+  //     console.log("res channelList is :", res)
+  //     setChannelList(res.data.channels)
+  //   }
+  //   loadChannelList()
+  //   // eslint-disable-next-line
+  // }, [])
+
+  // 上面的写法重构 ChannelStore 
+
+  const { channelStore } = useStore()
+
+
 
   //文章列表管理  统一管理数据
   // eslint-disable-next-line
@@ -96,8 +104,8 @@ const Article = () => {
 
   const navigate = useNavigate()
   function goPublish (data) {
-    navigate(`/publish?id${data.id}`)
-
+    console.log("edit  ...  :", data)
+    navigate(`/publish?id=${data.id}`)
   }
 
 
@@ -256,7 +264,7 @@ const Article = () => {
               defaultValue='licslan'
               style={{ width: 300 }}>
 
-              {channelList.map(channel => <Option key={channel.id} value={channel.id}>{channel.name}</Option>)}
+              {channelStore.channelList.map(channel => <Option key={channel.id} value={channel.id}>{channel.name}</Option>)}
 
             </Select>
           </Form.Item>
@@ -298,4 +306,4 @@ const Article = () => {
   )
 }
 
-export default Article
+export default observer(Article)

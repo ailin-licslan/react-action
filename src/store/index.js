@@ -7,6 +7,7 @@ import { ListStroe } from "./list.Store"
 import { TaskStore } from './task.Store'
 import LoginStore from './login.Store'
 import UserStore from "./user.Store"
+import ChannelStore from "./channel.Store"
 
 class RootStore {
   constructor() {
@@ -17,6 +18,7 @@ class RootStore {
     this.taskStore = new TaskStore()
     this.loginStore = new LoginStore()
     this.userStore = new UserStore()
+    this.channelStore = new ChannelStore()
   }
 }
 
