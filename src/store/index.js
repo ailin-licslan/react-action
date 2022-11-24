@@ -5,6 +5,8 @@ import React from "react"
 import Counter from "./counter.Store"
 import { ListStroe } from "./list.Store"
 import { TaskStore } from './task.Store'
+import LoginStore from './login.Store'
+import UserStore from "./user.Store"
 
 class RootStore {
   constructor() {
@@ -13,6 +15,8 @@ class RootStore {
     this.listStore = new ListStroe()
     this.counterStore = Counter
     this.taskStore = new TaskStore()
+    this.loginStore = new LoginStore()
+    this.userStore = new UserStore()
   }
 }
 
