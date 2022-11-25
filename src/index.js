@@ -16,7 +16,7 @@ import './index.css'
 //0.引入根组件 
 
 //1.超级多的react 基础知识学习 
-//import App from '../src/apps/App'
+//import App from '@/apps/App'
 
 //2.mobx 学习 计算属性学习
 //import Appv2 from '../src/apps/AppV2'

@@ -378,6 +378,66 @@ function StudyHook () {
 
 
 
+//this指向问题  使用  推荐使用 test=()=>{} 这种 箭头函数形式调用  {this.test}
+//箭头函数形式
+class ATest extends React.Component {
+  state = {
+    count: 1
+  }
+
+  //推荐形式  箭头函数 使用箭头将方法变为匿名调用,使this指向组件实例
+  setValueTest = () => {
+    console.log("this is :", this)
+  }
+  render () {
+    return (
+      <><button onClick={this.setValueTest}>方式一 推荐形式</button></>
+    )
+  }
+}
+
+
+//不推荐
+class BTest extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      count: 2
+    }
+    this.setValueTest = this.setValueTest.bind(this)
+  }
+
+  //在构造函数中绑定组件的this到函数当中,使this指向组件实例
+  setValueTest () {
+    console.log("this is :", this)
+  }
+  render () {
+    return (
+      <><button onClick={this.setValueTest}>方式二 不推荐</button></>
+    )
+  }
+}
+
+
+//不推荐
+class CTest extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      count: 3
+    }
+  }
+
+  //在调用此方法处绑定组件的this(button的点击方法里),使this指向组件实例
+  setValueTest () {
+    console.log("this is :", this)
+  }
+  render () {
+    return (
+      <><button onClick={this.setValueTest.bind(this)}>方式三 不推荐</button></>
+    )
+  }
+}
 
 
 
@@ -386,6 +446,75 @@ function StudyHook () {
 
 
 
+
+
+class HomeTesting extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      msgone: '这是Home组件的第一个栗子',
+      msgtwo: '这是Home组件的第二个栗子',
+      msgthree: '这是Home组件的第三个栗子',
+    }
+
+    this.refreshone = this.refreshone.bind(this)
+
+  }
+
+  //在构造函数中绑定组件的this到函数当中,使this指向组件实例
+  refreshone () {
+    console.log("this1 is :", this)
+    this.setState({
+      msgone: '第1个栗子刷新了！',
+    })
+  }
+
+  //使用箭头将方法变为匿名调用,使this指向组件实例
+  refreshtwo = () => {
+    console.log("this2 is :", this)
+    this.setState({
+      msgtwo: '第2个栗子刷新了！',
+    })
+  }
+
+  //在调用此方法处绑定组件的this(button的点击方法里),使this指向组件实例
+  refreshthree () {
+    console.log("this3 is :", this)
+    this.setState({
+      msgthree: '第3个栗子刷新了！',
+    })
+  }
+
+  render () {
+    return (
+      <div>
+        首页啊
+        <h3>{this.state.msgone}</h3>
+        <button onClick={this.refreshone}>刷新第1个栗子</button>
+        <h3>{this.state.msgtwo}</h3>
+        <button onClick={this.refreshtwo}>刷新第2个栗子</button>
+        <h3>{this.state.msgthree}</h3>
+        <button onClick={this.refreshthree.bind(this)}>刷新第3个栗子</button>
+      </div>
+    )
+  }
+}
+
+
+
+
+
+
+
+
+
+class TestReturn extends React.Component {
+  render () {
+    console.log("==", this.props.name)
+    return []
+  }
+}
 
 
 
@@ -644,10 +773,21 @@ class App extends React.Component {
         </BrowserRouter>
         <br></br>
 
+        hi :<TestReturn name="123" />
+        <br></br>
+        helloa: <ATest />
+        <br></br>
+        hellob: <BTest />
+        <br></br>
+        helloc: <CTest />
+        <br></br>
+        helloHome: <HomeTesting />
 
       </div>
     )
   }
 }
+
+
 
 export default App
