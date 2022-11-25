@@ -15,10 +15,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import './index.scss'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import { useStore } from '../../store'
+import { useStore } from '@/store'
 import { observer } from 'mobx-react-lite'
 import { useEffect, useRef, useState } from 'react'
-import { http } from '../../utils'
+import { http } from '@/utils'
 import { useSearchParams } from 'react-router-dom'
 
 const { Option } = Select

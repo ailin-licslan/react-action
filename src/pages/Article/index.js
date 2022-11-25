@@ -6,10 +6,10 @@ import './index.scss'
 
 import { Table, Tag, Space } from 'antd'
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
-import img404 from '../../assets/error.png'
+import img404 from '@/assets/error.png'
 import { useEffect, useState } from 'react'
-import { http } from '../../utils'
-import { useStore } from '../../store'
+import { http } from '@/utils'
+import { useStore } from '@/store'
 import { observer } from 'mobx-react-lite'
 //import { history } from '../../utils/history'
 
@@ -57,6 +57,7 @@ const Article = () => {
   })
 
   const pageChange = (page) => {
+    console.log('page is :', page)
     // 拿到当前页参数 修改params 引起接口更新
     setParams({
       ...params,
@@ -93,7 +94,7 @@ const Article = () => {
   //del 
   const delArticle = async (data) => {
     //只有一条数据了  后面做了新增再试试！！！
-    await http.delete(`/mp/articlesxxxx/${data.id}`)
+    await http.delete(`/mp/articles/${data.id}`)
     // 更新列表
     setParams({
       page: 1,
