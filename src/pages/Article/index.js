@@ -53,7 +53,7 @@ const Article = () => {
   // eslint-disable-next-line
   const [params, setParams] = useState({
     page: 1,
-    per_page: 10
+    per_page: 3
   })
 
   const pageChange = (page) => {
@@ -97,7 +97,7 @@ const Article = () => {
     // 更新列表
     setParams({
       page: 1,
-      per_page: 10
+      per_page: 3
     })
   }
 
@@ -293,11 +293,11 @@ const Article = () => {
           columns={columns}
           dataSource={article.list}
           pagination={{
-            position: ['bottomCenter'],
-            current: params.page,
             pageSize: params.per_page,
+            total: article.count,
             onChange: pageChange
-          }}
+          }
+          }
         />
       </Card>
 
